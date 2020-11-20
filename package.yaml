@@ -1,0 +1,16 @@
+name: repro
+version: 0.0.0
+
+ghc-options: -Wall
+
+dependencies: base >= 4.9 && < 5
+
+library:
+  source-dirs: library
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs: test
+    dependencies: hspec
+    build-tools: hspec-discover
