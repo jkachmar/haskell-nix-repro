@@ -51,5 +51,5 @@ let
 
 in
 {
-  inherit haskellPkgs;
+  inherit pkgs haskellPkgs;
 }
