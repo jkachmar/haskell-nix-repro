@@ -1,10 +1,10 @@
 let
-  inherit (import ./default.nix {}) haskellPkgs;
+  inherit (import ./default.nix {}) haskellPkgs pkgs;
 in
 
 haskellPkgs.shellFor {
   packages = p: [ p.repro ];
-  nativeBuildInputs = [ haskellPkgs.cabal-install ];
+  nativeBuildInputs = [ pkgs.cabal-install ];
   shellHook = ''
     ghc-pkg list
   '';

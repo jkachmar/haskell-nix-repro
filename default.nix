@@ -1,5 +1,10 @@
-{ pkgs ? import <nixpkgs> { }
-, ghc ? "ghc8102"
+{ nixpkgsSrc ?
+    builtins.fetchTarball {
+      # Recent version of nixpkgs master as of 2020-11-20.
+      url = "https://github.com/NixOS/nixpkgs/archive/4f3475b113c93d204992838aecafa89b1b3ccfde.tar.gz";
+      sha256 = "158iik656ds6i6pc672w54cnph4d44d0a218dkq6npzrbhd3vvbg";
+    }
+, pkgs ? import nixpkgsSrc { }
 }:
 let
   inherit (pkgs) lib;
@@ -11,7 +16,7 @@ let
       (lib.sourceByRegex ./. [
         "^library.*$"
         "^test.*$"
-        "package.yaml"
+        "repro.cabal"
         "README.md"
       ])
       { };
@@ -21,7 +26,7 @@ let
   # Construct a 'base' Haskell package, disabling the test
   # and benchmark suites for all dependencies by default.
   baseHaskellPkgs =
-    pkgs.haskell.packages.${ghc}.override (hpArgs: {
+    pkgs.haskell.packages.ghc8102.override (hpArgs: {
       overrides = pkgs.lib.composeExtensions (hpArgs.overrides or (_: _: { })) (
         _hfinal: hprev: {
           mkDerivation = args: hprev.mkDerivation (args // {
