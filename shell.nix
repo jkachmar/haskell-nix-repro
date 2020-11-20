@@ -8,4 +8,5 @@ haskellPkgs.shellFor {
   shellHook = ''
     ghc-pkg list
   '';
+  genericBuilderArgsModifier = args: args // { doCheck = true; };
 }
